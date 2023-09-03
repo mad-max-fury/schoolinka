@@ -1,7 +1,13 @@
+import Welcome from "./components/welcome";
+
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline font-work-sans m-auto">
-      working on schoolinka task oooooo
-    </h1>
+    <main className="max-w-[1276px] py-4 mx-auto">
+      <Welcome
+        greeting="Good morning!"
+        taskHighlight="You got some task to do."
+        createTask={() => null}
+      />
+    </main>
   );
 }
