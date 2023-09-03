@@ -9,6 +9,7 @@ export default {
         "primary": "#FFFFFF",
         secondary: "#0E31F2",
         "secondary-hover":"#3F5BF6",
+        "light-purple": "#EBEDFF",
         gray:{
           50:"#F9FAFB",
           100:"",

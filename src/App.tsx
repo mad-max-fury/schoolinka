@@ -1,4 +1,5 @@
 import DatesLister from "./components/datesLister";
+import TaskCard from "./components/taskCard";
 import Welcome from "./components/welcome";
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
           { day: "Sun", date: "7" },
         ]}
       />
+      <TaskCard />
     </main>
   );
 }
