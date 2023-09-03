@@ -1,6 +1,5 @@
-import React from "react";
 import CButton from "./button";
-
+import { AiOutlinePlus } from "react-icons/ai";
 type Props = {
   greeting: string;
   taskHighlight: string;
@@ -16,8 +15,12 @@ const Welcome = ({ greeting, taskHighlight, createTask }: Props) => {
           value={"Create New Task"}
           type="button"
           onClick={createTask}
-          className="p-[10px_16px] text-white hover:bg-secondary text-sm font-semibold bg-secondary-hover rounded-lg"
-        />
+          className="p-[10px_16px] flex-row-reverse  text-white hover:bg-secondary text-sm font-semibold bg-secondary-hover rounded-lg"
+        >
+          <span>
+            <AiOutlinePlus size={20} />
+          </span>
+        </CButton>
       </span>
     </div>
   );

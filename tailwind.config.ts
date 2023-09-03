@@ -23,7 +23,7 @@ export default {
         }
       },
       fontFamily: {
-        'work-sans': ['Work Sans', 'sans-serif']
+        'work-sans': [`'Work Sans'`, 'sans-serif']
       },
       content: {},
     },
