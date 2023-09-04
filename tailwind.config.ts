@@ -12,7 +12,7 @@ export default {
         "light-purple": "#EBEDFF",
         gray:{
           50:"#F9FAFB",
-          100:"",
+          100:"#F2F4F7",
           200:"#EAEDFE",
           300:"#D0D5DD",
           400:"",
