@@ -8,9 +8,9 @@ type Props = {
 
 const Welcome = ({ greeting, taskHighlight, createTask }: Props) => {
   return (
-    <div className="w-full h-fit flex justify-between items-start">
+    <div className="w-full h-fit flex justify-between items-start mt-[48px] mb-[32px]">
       <Greetings greeting={greeting} taskHighlight={taskHighlight} />
-      <span>
+      <span className="hidden xs:block">
         <CButton
           value={"Create New Task"}
           type="button"
@@ -31,7 +31,7 @@ export default Welcome;
 const Greetings = ({ greeting, taskHighlight }: Partial<Props>) => {
   return (
     <div className="w-full h-fit flex flex-col ">
-      <h2 className="text-[clamp(24px,_5vw,_30px)] text-gray-900 font-semibold">
+      <h2 className="text-[clamp(24px,_5vw,_30px)] leading-none mb-[1px] text-gray-900 font-semibold">
         {greeting}
       </h2>
       <small className=" text-gray-600 text-base font-work-sans font-normal">
