@@ -2,7 +2,8 @@ import DatesLister from "./components/datesLister";
 import Navbar from "./components/navbar";
 import Pagination from "./components/pagination";
 import TaskCard from "./components/taskCard";
-import TaskPreview from "./components/taskPreview";
+import TaskEditor from "./components/taskEditor";
+// import TaskPreview from "./components/taskPreview";
 import Welcome from "./components/welcome";
 
 import { useState } from "react";
@@ -76,7 +77,8 @@ export default function App() {
             </div>
           </div>
           <div className="w-max-content ">
-            <TaskPreview />
+            {/* <TaskPreview /> */}
+            <TaskEditor />
           </div>
         </div>
       </main>
