@@ -1,3 +1,4 @@
+import Calender from "./components/calender";
 import DatesLister from "./components/datesLister";
 import Navbar from "./components/navbar";
 import Pagination from "./components/pagination";
@@ -78,7 +79,8 @@ export default function App() {
           </div>
           <div className="w-max-content ">
             {/* <TaskPreview /> */}
-            <TaskEditor />
+            {/* <TaskEditor /> */}
+            <Calender />
           </div>
         </div>
       </main>
