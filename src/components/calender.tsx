@@ -26,7 +26,15 @@ const formatDateShort = (date: Date) => {
 
 const Calendar: React.FC<CalendarProps> = (props) => {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(currentMonth);
+  const handleDateClick = (day: Date) => {
+    const selectedDayMonth = day.getMonth();
+    const activeMonth = currentMonth.getMonth();
 
+    if (activeMonth === selectedDayMonth) return setSelectedDate(day);
+    if (activeMonth > selectedDayMonth) return handlePrevMonth(day);
+    return handleNextMonth(day);
+  };
   const generateCalendarData = () => {
     const startDate = startOfMonth(currentMonth);
     const endDate = endOfMonth(currentMonth);
@@ -45,27 +53,20 @@ const Calendar: React.FC<CalendarProps> = (props) => {
       }
       rows.push(week);
     }
-
     return rows;
   };
 
-  const handlePrevMonth = () => {
-    return setCurrentMonth(addMonths(selectedDate, -1));
+  const handlePrevMonth = (day: Date) => {
+    return setCurrentMonth(addMonths(day, -1));
   };
-  const handleNextMonth = () => {
-    return setCurrentMonth(addMonths(selectedDate, 1));
-  };
-
-  const calendarData = generateCalendarData();
-
-  const [selectedDate, setSelectedDate] = useState<Date>(currentMonth);
-  const handleDateClick = (day: Date) => {
-    return setSelectedDate(day);
+  const handleNextMonth = (day: Date) => {
+    return setCurrentMonth(addMonths(day, 1));
   };
 
   useEffect(() => {
     return setSelectedDate(currentMonth);
   }, [currentMonth]);
+  const calendarData = generateCalendarData();
   return (
     <div
       className="Content w-96 h-fit px-6 py-5 flex-col justify-start items-start gap-4 inline-flex bg-white border border-solid border-gray-100 rounded-lg"
@@ -78,7 +79,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
         <div className="Month self-stretch justify-between items-center gap-14 inline-flex">
           <div
             className="Button p-2 rounded-lg hover:bg-gray-50 justify-center items-center gap-2 flex"
-            onClick={handlePrevMonth}
+            onClick={() => handlePrevMonth(selectedDate)}
           >
             <button className="ChevronLeft w-5 h-5 relative text-gray-500">
               <LiaAngleLeftSolid size={20} />
@@ -89,7 +90,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
           </div>
           <div
             className="Button p-2 rounded-lg justify-center hover:bg-gray-50 items-center gap-2 flex"
-            onClick={handleNextMonth}
+            onClick={() => handleNextMonth(selectedDate)}
           >
             <button className="ChevronRight w-5 h-5 relative text-gray-500">
               <LiaAngleRightSolid size={20} />
