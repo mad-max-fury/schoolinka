@@ -1,12 +1,13 @@
 import CButton from "./button";
 import { FormProvider, useForm } from "react-hook-form";
 import InputFieldTextArea from "./textarea";
-import InputField from "./inputField";
 import DateTimePickerBtn from "./dateTimePickerBtn";
+import { useDisplay } from "../context/display";
 
 type Props = {};
 
 const TaskEditor = (props: Props) => {
+  const { switchDisplayMethod } = useDisplay();
   const methods = useForm();
   return (
     <FormProvider {...methods}>
@@ -22,7 +23,11 @@ const TaskEditor = (props: Props) => {
             <h3 className=" text-lg text-gray-900 font-work-sans font-bold">
               Edit Task
             </h3>
-            <button className=" relative text-4xl leading-none mb-2 hover:text-gray-500">
+            <button
+              type="button"
+              className=" relative text-4xl leading-none mb-2 hover:text-gray-500"
+              onClick={() => switchDisplayMethod("calender")}
+            >
               &times;
             </button>
           </div>
@@ -47,6 +52,7 @@ const TaskEditor = (props: Props) => {
             <CButton
               value={"Cancel"}
               type="button"
+              onClick={() => switchDisplayMethod("calender")}
               className="grow shrink basis-0 h-[39px] px-[18px] py-2.5 text-slate-700 hover:bg-secondary-hover hover:text-white hover:border-transparent text-base font-semibold bg-white rounded-lg shadow border border-gray-300 justify-center items-center gap-2 flex"
             />
             <CButton

@@ -1,18 +1,25 @@
 import { useState } from "react";
 import CheckBox from "./checkbox";
+import { useDisplay } from "../context/display";
 
-type Props = {};
+type Props = {
+  active: boolean;
+  fn: () => void;
+};
 
-const TaskCard = (props: Props) => {
-  const [select, setSelect] = useState(false);
+const TaskCard = ({ fn, active }: Props) => {
   const [checked, setChecked] = useState<boolean>(false);
 
+  const { switchDisplayMethod } = useDisplay();
   return (
     <div
       className={` ${
-        select ? "bg-light-purple" : "bg-gray-50"
+        active ? "bg-light-purple" : "bg-gray-50"
       } p-[14px_24px]  border-gray-200 hover:bg-light-purple border-b border-solid w-full flex justify-between items-center transition-all ease-in-out duration-500 cursor-pointer`}
-      onClick={() => setSelect(!select)}
+      onClick={() => {
+        fn();
+        switchDisplayMethod(active ? "calender" : "preview");
+      }}
     >
       <div className="flex gap-2 items-center justify-center">
         <span>

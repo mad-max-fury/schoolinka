@@ -69,7 +69,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
   const calendarData = generateCalendarData();
   return (
     <div
-      className="Content w-96 h-fit px-6 py-5 flex-col justify-start items-start gap-4 inline-flex bg-white border border-solid border-gray-100 rounded-lg"
+      className="Content max-w-96 w-full h-fit px-6 py-5 flex-col justify-start items-start gap-4 inline-flex bg-white border border-solid border-gray-100 rounded-lg"
       style={{
         boxShadow:
           "0px 8px 8px -4px rgba(16, 24, 40, 0.03), 0px 20px 24px -4px rgba(16, 24, 40, 0.08)",

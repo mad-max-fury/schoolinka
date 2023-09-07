@@ -33,7 +33,7 @@ export default {
       xsm: "600px",
       sm: "768px",
       md: "1060px",
-      lg: "1300px",
+      lg: "1200px",
     },
     keyframes: {
       fadeIn: {

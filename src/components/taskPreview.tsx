@@ -1,13 +1,15 @@
 import { FiCalendar } from "react-icons/fi";
 import CButton from "./button";
 import { LuClock } from "react-icons/lu";
+import { useDisplay } from "../context/display";
 
 type Props = {};
 
 const TaskPreview = (props: Props) => {
+  const { switchDisplayMethod } = useDisplay();
   return (
     <div
-      className="w-[394px] min-h-64 px-6 py-5 flex-col justify-start items-start gap-4 inline-flex bg-white border border-solid border-gray-100 rounded-lg"
+      className="max-w-[394px] w-full min-h-64 px-6 py-5 flex-col justify-start items-start gap-4 inline-flex bg-white border border-solid border-gray-100 rounded-lg"
       style={{
         boxShadow:
           "0px 8px 8px -4px rgba(16, 24, 40, 0.03), 0px 20px 24px -4px rgba(16, 24, 40, 0.08)",
@@ -15,7 +17,10 @@ const TaskPreview = (props: Props) => {
     >
       <div className="self-stretch justify-end items-start gap-2 inline-flex">
         <div className="w-6 h-6 justify-center items-center flex ">
-          <button className=" relative text-4xl leading-none mb-2 hover:text-gray-500">
+          <button
+            className=" relative text-4xl leading-none mb-2 hover:text-gray-500"
+            onClick={() => switchDisplayMethod("calender")}
+          >
             &times;
           </button>
         </div>

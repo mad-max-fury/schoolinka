@@ -76,8 +76,11 @@ const Pagination: React.FC<PaginationProps> = ({
         <span> Previous</span>
       </button>
 
-      <div className="flex items-center justify-center my-auto">
+      <div className="hidden xsm:flex items-center justify-center my-auto">
         {renderPageButtons()}
+      </div>
+      <div className="xsm:hidden font-bold flex items-center justify-center my-auto">
+        {currentPage}
       </div>
 
       <button
