@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   format,
-  startOfMonth,
-  endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  addDays,
-  addMonths,
   isSameMonth,
   isToday,
   isTomorrow,
@@ -14,8 +8,16 @@ import {
   formatDistanceToNow,
 } from "date-fns";
 import { LiaAngleRightSolid, LiaAngleLeftSolid } from "react-icons/lia";
+import { generateCalendarData } from "../utils";
 
-interface CalendarProps {}
+interface CalendarProps {
+  selectedDate: Date;
+  currentMonth: Date;
+  setSelectedDate: (day: Date) => void;
+  handlePrevMonth: (day: Date) => void;
+  handleNextMonth: (day: Date) => void;
+  handleDateClick: (day: Date) => void;
+}
 
 const formatDateShort = (date: Date) => {
   const month = format(date, "MMM");
@@ -24,49 +26,18 @@ const formatDateShort = (date: Date) => {
   return `${month.slice(0, 3)} ${day}, ${year}`;
 };
 
-const Calendar: React.FC<CalendarProps> = (props) => {
-  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date>(currentMonth);
-  const handleDateClick = (day: Date) => {
-    const selectedDayMonth = day.getMonth();
-    const activeMonth = currentMonth.getMonth();
-
-    if (activeMonth === selectedDayMonth) return setSelectedDate(day);
-    if (activeMonth > selectedDayMonth) return handlePrevMonth(day);
-    return handleNextMonth(day);
-  };
-  const generateCalendarData = () => {
-    const startDate = startOfMonth(currentMonth);
-    const endDate = endOfMonth(currentMonth);
-    const startDateOfWeek = startOfWeek(startDate);
-    const endDateOfWeek = endOfWeek(endDate);
-
-    const rows: Date[][] = [];
-
-    let currentDate = startDateOfWeek;
-
-    while (currentDate <= endDateOfWeek) {
-      const week: Date[] = [];
-      for (let i = 0; i < 7; i++) {
-        week.push(currentDate);
-        currentDate = addDays(currentDate, 1);
-      }
-      rows.push(week);
-    }
-    return rows;
-  };
-
-  const handlePrevMonth = (day: Date) => {
-    return setCurrentMonth(addMonths(day, -1));
-  };
-  const handleNextMonth = (day: Date) => {
-    return setCurrentMonth(addMonths(day, 1));
-  };
-
+const Calendar: React.FC<CalendarProps> = ({
+  handlePrevMonth,
+  handleNextMonth,
+  handleDateClick,
+  currentMonth,
+  selectedDate,
+  setSelectedDate,
+}) => {
   useEffect(() => {
     return setSelectedDate(currentMonth);
   }, [currentMonth]);
-  const calendarData = generateCalendarData();
+  const calendarData = generateCalendarData(currentMonth);
   return (
     <div
       className="Content max-w-96 w-full h-fit px-6 py-5 flex-col justify-start items-start gap-4 inline-flex bg-white border border-solid border-gray-100 rounded-lg"

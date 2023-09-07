@@ -6,18 +6,7 @@ interface DisplayContextProps {
     editor: boolean;
     preview: boolean;
   };
-  selectedDateAndTime: {
-    date: Date | null;
-    time: Date | null;
-  };
   switchDisplayMethod: (method: "calender" | "editor" | "preview") => void;
-  updateSelectedDateAndTime: ({
-    key,
-    value,
-  }: {
-    key: string;
-    value: string | Date;
-  }) => void;
 }
 
 export const DisplayContext = createContext<DisplayContextProps | undefined>(
@@ -48,13 +37,6 @@ export const DisplayContextProvider: React.FC<DisplayContextProviderProps> = ({
     editor: false,
     preview: false,
   });
-  const [selectedDateAndTime, setSelectedDateAndTime] = useState<{
-    date: Date | null;
-    time: Date | null;
-  }>({
-    date: null,
-    time: null,
-  });
 
   const switchDisplayMethod = (method: "calender" | "editor" | "preview") => {
     return setDisplayFlow((prevFlow) => ({
@@ -64,22 +46,10 @@ export const DisplayContextProvider: React.FC<DisplayContextProviderProps> = ({
       preview: method === "preview",
     }));
   };
-  const updateSelectedDateAndTime = ({
-    key,
-    value,
-  }: {
-    key: string;
-    value: string | Date;
-  }) => {
-    return setSelectedDateAndTime((prev) => {
-      return { ...prev, [key]: value };
-    });
-  };
+
   const values = {
     DisplayFlow,
-    selectedDateAndTime,
     switchDisplayMethod,
-    updateSelectedDateAndTime,
   };
 
   return (
