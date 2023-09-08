@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useMediaQuery from "../hooks/useMediaQuery";
 import { useDisplay } from "../context/display";
+import { addMonths } from "date-fns";
 import Navbar from "../components/navbar";
 import Welcome from "../components/welcome";
 import DatesLister from "../components/datesLister";
@@ -9,32 +10,30 @@ import Pagination from "../components/pagination";
 import TaskPreview from "../components/taskPreview";
 import TaskEditor from "../components/taskEditor";
 import Calendar from "../components/calender";
-import { addMonths } from "date-fns";
-export default function Home() {
-  const isAbovelgScreen = useMediaQuery("(min-width:1200px)");
-  const [selected, setSelected] = useState<number | null>(null);
 
+export default function Home() {
+  const [selected, setSelected] = useState<number | null>(null);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(currentMonth);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const {
     DisplayFlow: { calender, editor, preview },
     switchDisplayMethod,
   } = useDisplay();
 
+  const isAbovelgScreen = useMediaQuery("(min-width:1200px)");
   const isSideWigetActive = true;
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const totalPages = 10;
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
   const handlePrevMonth = (day: Date) => {
-    return setCurrentMonth(addMonths(day, -1));
+    setCurrentMonth(addMonths(day, -1));
   };
+
   const handleNextMonth = (day: Date) => {
-    return setCurrentMonth(addMonths(day, 1));
+    setCurrentMonth(addMonths(day, 1));
   };
+
   const handleDateClick = (day: Date) => {
     const selectedDayMonth = day.getMonth();
     const activeMonth = currentMonth.getMonth();
@@ -48,25 +47,27 @@ export default function Home() {
     }
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div>
       <Navbar />
-
-      <main className="max-w-[1276px] py-4 px-4 mx-auto relative ">
+      <main className="max-w-[1276px] py-4 px-4 mx-auto relative">
         <Welcome
           greeting="Good morning!"
           taskHighlight="You got some task to do."
           createTask={() => switchDisplayMethod("editor")}
         />
-        <div className="w-full flex items-start justify-between min-h-[calc(100vh_-_160px)] h-screen max-h-[860px] gap-4  sticky top-[80px] overflow-x-hidden">
-          <div className="w-full max-w-[832px] sm:pr-4 h-full flex flex-col  sm:border-r sm:border-gray-200 sm:border-solid">
+        <div className="w-full flex items-start justify-between min-h-[calc(100vh-_160px)] h-screen max-h-[860px] gap-4 sticky top-[80px] overflow-x-hidden">
+          <div className="w-full max-w-[832px] sm:pr-4 h-full flex flex-col sm:border-r sm:border-gray-200 sm:border-solid">
             <DatesLister
               selectedDate={selectedDate}
               handleDateClick={handleDateClick}
             />
-            <div className="w-full flex gap-4 mt-6 flex-col h-[calc(100%_-_60px)] overflow-y-auto hidescrollbar">
+            <div className="w-full flex gap-4 mt-6 flex-col h-[calc(100%-_60px)] overflow-y-auto hidescrollbar">
               <span className="my-3">
-                {" "}
                 <h1 className="text-base text-gray-900 font-semibold">
                   My Tasks
                 </h1>
@@ -82,7 +83,6 @@ export default function Home() {
                     active={i === selected}
                   />
                 ))}
-
               <div className="container mx-auto my-2">
                 <Pagination
                   currentPage={currentPage}

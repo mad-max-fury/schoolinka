@@ -12,7 +12,8 @@
   "dependencies": {
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
     "@headlessui/react": "^1.7.17",
