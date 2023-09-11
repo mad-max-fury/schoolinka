@@ -2,7 +2,7 @@ import supabase from "./superbase";
 
 export type userPropsType = {
   email: string;
-  password: string;
+  password?: string;
   full_name: string;
 };
 
@@ -10,7 +10,7 @@ export async function signUp(fields:userPropsType) {
   const {email, password, full_name} = fields
   const { data, error } = await supabase.auth.signUp({
     email,
-    password,
+    password: password ? password : '', 
     options:{
     data:{ full_name}
     }

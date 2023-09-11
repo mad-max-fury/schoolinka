@@ -3,12 +3,26 @@ import { FormProvider, useForm } from "react-hook-form";
 import InputFieldTextArea from "./textarea";
 import DateTimePickerBtn from "./dateTimePickerBtn";
 import { useDisplay } from "../context/display";
+import { useCreateTodo } from "../lib/reactQuery/task/useCreateTodo";
+import { useUser } from "../lib/reactQuery/auth/useUser";
 
-type Props = {};
-
-const TaskEditor = (props: Props) => {
+const TaskEditor = () => {
   const { switchDisplayMethod } = useDisplay();
+  const user = useUser();
   const methods = useForm();
+  const createTodoMutation = useCreateTodo();
+
+  const createTask = () => {
+    createTodoMutation.mutate({
+      user_id: user?.user?.id,
+      task: "we are cooking something",
+      start_time: "03:12:00", // You can provide a valid time here if needed
+      end_time: "03:12:00", // Formatted as HH:mm:ss
+      due_date: new Date(),
+      reminder: false,
+    });
+  };
+
   return (
     <FormProvider {...methods}>
       <form
@@ -57,7 +71,8 @@ const TaskEditor = (props: Props) => {
             />
             <CButton
               value={"Save"}
-              type="submit"
+              type="button"
+              onClick={createTask}
               className="grow shrink basis-0 h-10 px-4 py-2.5 bg-blue-600 rounded-lg hover:opacity-90 shadow border border-blue-600 justify-center items-center gap-2 flex text-white text-sm font-semibold leading-tight"
             />
           </div>

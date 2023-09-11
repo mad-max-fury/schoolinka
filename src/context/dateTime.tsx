@@ -23,7 +23,10 @@ export const DisplayContextProvider: React.FC<DisplayContextProviderProps> = ({
 }) => {
   const [dateTime, setDateTime] = useState();
 
-  const values = {};
+  const values = {
+    dateTime: dateTime,
+    setDateTime: setDateTime,
+  };
 
   return (
     <DisplayContext.Provider value={values}>{children}</DisplayContext.Provider>

@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useSignIn } from "../lib/reactQuery/auth/useSignIn";
 type FormData = {
   email: string;
-  password: string;
+  password?: string;
 };
 const SignIn = () => {
   const methods = useForm({
@@ -16,7 +16,10 @@ const SignIn = () => {
   });
   const login = useSignIn();
   const onSubmit = (data: FormData) => {
-    login.mutate(data);
+    login.mutate({
+      password: data.password ? data.password : "",
+      email: data.email,
+    });
     if (login.isSuccess) methods.reset();
   };
   return (

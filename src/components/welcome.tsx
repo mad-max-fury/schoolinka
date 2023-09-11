@@ -1,3 +1,4 @@
+import { useUser } from "../lib/reactQuery/auth/useUser";
 import CButton from "./button";
 import { AiOutlinePlus } from "react-icons/ai";
 type Props = {
@@ -7,9 +8,14 @@ type Props = {
 };
 
 const Welcome = ({ greeting, taskHighlight, createTask }: Props) => {
+  const user = useUser();
+  const name = user?.user?.user_metadata?.full_name?.split(" ")[0];
   return (
     <div className="w-full h-fit flex justify-between items-start mt-[48px] mb-[32px]">
-      <Greetings greeting={greeting} taskHighlight={taskHighlight} />
+      <Greetings
+        greeting={greeting + ` ${name}`}
+        taskHighlight={taskHighlight}
+      />
       <span className="hidden xs:block">
         <CButton
           value={"Create New Task"}

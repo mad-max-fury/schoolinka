@@ -3,9 +3,7 @@ import CButton from "./button";
 import { LuClock } from "react-icons/lu";
 import { useDisplay } from "../context/display";
 
-type Props = {};
-
-const TaskPreview = (props: Props) => {
+const TaskPreview = () => {
   const { switchDisplayMethod } = useDisplay();
   return (
     <div

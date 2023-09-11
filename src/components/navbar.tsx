@@ -5,9 +5,8 @@ import { BiLogOut } from "react-icons/bi";
 import CButton from "./button";
 import { useState } from "react";
 import { useSignOut } from "../lib/reactQuery/auth/useSignOut";
-type Props = {};
 
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const [show, setShow] = useState(false);
   const signOut = useSignOut();
 

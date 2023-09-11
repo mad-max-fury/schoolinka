@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { signUp, userPropsType } from "../../../services/apiAuth.ts";
 import toast from "react-hot-toast";
