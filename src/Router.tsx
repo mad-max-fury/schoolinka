@@ -9,7 +9,9 @@ import DashboardLayout from "./layouts/dashboardLayout";
 import NotFound from "./components/NotFound";
 import AuthLayout from "./layouts/authLayout";
 import SignIn from "./pages/signIn";
-import SignUp from "./pages/SignUp";
+
+import RequireAuth from "./layouts/requireAuth";
+import SignUp from "./pages/signUp";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,7 +21,14 @@ const router = createBrowserRouter(
         <Route path="sign-up" element={<SignUp />} />
       </Route>
 
-      <Route path="/dashboard" element={<DashboardLayout />}>
+      <Route
+        path="/dashboard"
+        element={
+          <RequireAuth>
+            <DashboardLayout />
+          </RequireAuth>
+        }
+      >
         <Route index element={<Home />} />
       </Route>
       <Route path="*" element={<NotFound />} />

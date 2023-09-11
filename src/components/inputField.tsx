@@ -41,7 +41,7 @@ const InputField = ({
         type={type && !show ? type : "text"}
         {...register(name)}
         {...rest}
-        className={`w-full text-start relative h-full bg-transparent  pl-4 outline-none text-base text-opacity-70 font-normal placeholder:absolute placeholder:top-[50%] placeholder:translate-y-[-50%] placeholder:left-4  placeholder:text-black placeholder:text-opacity-60 placeholder:text-sm placeholder:font-normal grow shrink basis-0  leading-normal bg-gray-50 rounded-lg shadow border  justify-start items-start gap-2 inline-flex ${
+        className={`w-full text-start relative h-full bg-transparent  pl-4 outline-none text-base text-opacity-70 font-normal placeholder:absolute placeholder:top-[50%] placeholder:translate-y-[-50%] placeholder:left-4  placeholder:text-black placeholder:text-opacity-60 placeholder:text-sm placeholder:font-normal grow shrink basis-0  leading-normal bg-gray-50 rounded-lg hover:shadow border  justify-start items-start gap-2 inline-flex ${
           formState.errors[name]
             ? "border-red-500 text-red-600 focus-within:border-red-500"
             : "border-gray-300 text-gray-500 "
