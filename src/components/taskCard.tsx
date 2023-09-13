@@ -1,16 +1,34 @@
 import { useState } from "react";
 import CheckBox from "./checkbox";
 import { useDisplay } from "../context/display";
+import { formatDistanceToNow, subMinutes } from "date-fns";
+import { useUpdateTodo } from "../lib/reactQuery/task/useUpdateTodo";
 
 type Props = {
   active: boolean;
   fn: () => void;
+  id: string;
+  task: string;
+  start_time: string;
+  end_time: string;
+  done: boolean;
+  created_at: string;
 };
 
-const TaskCard = ({ fn, active }: Props) => {
-  const [checked, setChecked] = useState<boolean>(false);
+const TaskCard = ({
+  fn,
+  active,
+  task,
+  start_time,
+  end_time,
+  created_at,
+  done,
+  id,
+}: Props) => {
+  const updateTodo = useUpdateTodo();
 
   const { switchDisplayMethod } = useDisplay();
+
   return (
     <div
       className={` ${
@@ -23,27 +41,57 @@ const TaskCard = ({ fn, active }: Props) => {
     >
       <div className="flex gap-2 items-center justify-center">
         <span>
-          <CheckBox name="todo-1" onChangeHandler={setChecked} />
+          <CheckBox
+            name="todo-1"
+            checked={done}
+            onChangeHandler={async (checked) => {
+              await updateTodo.mutateAsync({
+                id,
+                column_name: "done",
+                column_value: checked,
+              });
+            }}
+          />
         </span>
         <div className="flex flex-col items-start justify-center">
           <h4
             className={`  font-work-sans text-sm font-medium ${
-              checked ? " line-through text-gray-300" : "text-gray-900"
+              done ? " line-through text-gray-300" : "text-gray-900"
             }`}
           >
-            Meeting with stakeholder
+            {task}
           </h4>
           <span
             className={` ${
-              checked ? " line-through text-gray-300" : "text-gray-600"
+              done ? " line-through text-gray-300" : "text-gray-600"
             } font-work-sans text-sm font-normal`}
           >
-            2:15 pm - 4:30 pm
+            {subMinutes(
+              new Date(`1970-01-01T${start_time}Z`),
+              60
+            ).toLocaleTimeString([], {
+              second: "2-digit",
+              minute: "2-digit",
+              hour: "2-digit",
+              hour12: true,
+            })}{" "}
+            -{" "}
+            {subMinutes(
+              new Date(`1970-01-01T${end_time}Z`),
+              60
+            ).toLocaleTimeString([], {
+              second: "2-digit",
+              minute: "2-digit",
+              hour: "2-digit",
+              hour12: true,
+            })}
           </span>
         </div>
       </div>
       <span className="text-gray-600 font-work-sans text-sm font-normal">
-        Today
+        {formatDistanceToNow(new Date(created_at), {
+          addSuffix: true,
+        })}
       </span>
     </div>
   );

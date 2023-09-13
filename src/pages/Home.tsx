@@ -11,8 +11,12 @@ import TaskPreview from "../components/taskPreview";
 import TaskEditor from "../components/taskEditor";
 import Calendar from "../components/calender";
 import { getGreeting } from "../utils";
+import { useGetTodos } from "../lib/reactQuery/task/useGetTodos";
+import { useUser } from "../lib/reactQuery/auth/useUser";
 
 export default function Home() {
+  const user = useUser();
+  const { data, isFetching } = useGetTodos({ user_id: user.user.id });
   const [selected, setSelected] = useState<number | null>(null);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(currentMonth);
@@ -25,7 +29,7 @@ export default function Home() {
 
   const isAbovelgScreen = useMediaQuery("(min-width:1200px)");
   const isSideWigetActive = true;
-  const totalPages = 10;
+  const totalPages = data && data?.length / 10;
 
   const handlePrevMonth = (day: Date) => {
     setCurrentMonth(addMonths(day, -1));
@@ -73,21 +77,37 @@ export default function Home() {
                   My Tasks
                 </h1>
               </span>
-              {Array(13)
-                .fill(0)
-                .map((_, i) => (
+              {isFetching && (
+                <div className="h-[30vh] w-full items-center flex justify-center gap-2 flex-col">
+                  <div className=" animate-spin rounded-full h-6 w-6 border-t-4 border-blue-600"></div>
+                  <span>Loading todos...</span>
+                </div>
+              )}
+              {data && data.length < 1 && !isFetching && <div>No task yet</div>}
+              {data &&
+                data.length > 0 &&
+                !isFetching &&
+                data.map((_, i) => (
                   <TaskCard
                     key={i}
+                    task={_?.task}
+                    start_time={_?.start_time}
+                    end_time={_?.end_time}
+                    done={_?.done}
+                    id={_?.id}
+                    created_at={_?.created_at}
                     fn={() =>
-                      i === selected ? setSelected(null) : setSelected(i)
+                      _?.id === selected
+                        ? setSelected(null)
+                        : setSelected(_?.id)
                     }
-                    active={i === selected}
+                    active={_?.id === selected}
                   />
                 ))}
               <div className="container mx-auto my-2">
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={totalPages ? totalPages : 0}
                   onChangePage={handlePageChange}
                 />
               </div>

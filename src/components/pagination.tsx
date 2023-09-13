@@ -76,19 +76,21 @@ const Pagination: React.FC<PaginationProps> = ({
         <span> Previous</span>
       </button>
 
-      <div className="hidden xsm:flex items-center justify-center my-auto">
-        {renderPageButtons()}
-      </div>
+      {totalPages > 5 && (
+        <div className="hidden xsm:flex items-center justify-center my-auto">
+          {renderPageButtons()}
+        </div>
+      )}
       <div className="xsm:hidden font-bold flex items-center justify-center my-auto">
         {currentPage}
       </div>
 
       <button
         className={` flex items-center hover:bg-gray-100 rounded-md justify-start gap-3  ${
-          currentPage === totalPages ? "pointer-events-none opacity-50" : ""
+          currentPage >= totalPages ? "pointer-events-none opacity-50" : ""
         } px-2 py-1 ml-2`}
         onClick={() => onChangePage(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        disabled={currentPage >= totalPages}
       >
         <span>Next</span>
         <span>
