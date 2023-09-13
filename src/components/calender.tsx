@@ -52,7 +52,10 @@ const Calendar: React.FC<CalendarProps> = ({
             className="Button p-2 rounded-lg hover:bg-gray-50 justify-center items-center gap-2 flex"
             onClick={() => handlePrevMonth(selectedDate)}
           >
-            <button className="ChevronLeft w-5 h-5 relative text-gray-500">
+            <button
+              type="button"
+              className="ChevronLeft w-5 h-5 relative text-gray-500"
+            >
               <LiaAngleLeftSolid size={20} />
             </button>
           </div>
@@ -63,7 +66,10 @@ const Calendar: React.FC<CalendarProps> = ({
             className="Button p-2 rounded-lg justify-center hover:bg-gray-50 items-center gap-2 flex"
             onClick={() => handleNextMonth(selectedDate)}
           >
-            <button className="ChevronRight w-5 h-5 relative text-gray-500">
+            <button
+              type="button"
+              className="ChevronRight w-5 h-5 relative text-gray-500"
+            >
               <LiaAngleRightSolid size={20} />
             </button>
           </div>
@@ -112,6 +118,7 @@ const Calendar: React.FC<CalendarProps> = ({
               {week.map((day, dayIndex) => (
                 <button
                   key={dayIndex}
+                  type="button"
                   className={`CalendarCell  w-10 h-10 px-2 py-2.5 rounded-full flex-col justify-end items-center gap-px inline-flex ${
                     selectedDate && isSameMonth(day, currentMonth)
                       ? selectedDate.getDate() === day.getDate()

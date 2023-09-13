@@ -10,6 +10,7 @@ import Pagination from "../components/pagination";
 import TaskPreview from "../components/taskPreview";
 import TaskEditor from "../components/taskEditor";
 import Calendar from "../components/calender";
+import { getGreeting } from "../utils";
 
 export default function Home() {
   const [selected, setSelected] = useState<number | null>(null);
@@ -56,7 +57,7 @@ export default function Home() {
       <Navbar />
       <main className="max-w-[1276px] py-4 px-4 mx-auto relative">
         <Welcome
-          greeting="Good morning!"
+          greeting={getGreeting()}
           taskHighlight="You got some task to do."
           createTask={() => switchDisplayMethod("editor")}
         />

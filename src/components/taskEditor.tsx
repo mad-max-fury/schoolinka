@@ -5,22 +5,35 @@ import DateTimePickerBtn from "./dateTimePickerBtn";
 import { useDisplay } from "../context/display";
 import { useCreateTodo } from "../lib/reactQuery/task/useCreateTodo";
 import { useUser } from "../lib/reactQuery/auth/useUser";
-
+import { useState } from "react";
+import { HiOutlineBellAlert } from "react-icons/hi2";
+import toast from "react-hot-toast";
 const TaskEditor = () => {
   const { switchDisplayMethod } = useDisplay();
   const user = useUser();
+  const [values, setValues] = useState<{
+    user_id: string;
+    task: string;
+    start_time: string;
+    end_time: string;
+    due_date: Date;
+    reminder: boolean;
+  }>({
+    user_id: user?.user?.id,
+    task: "",
+    start_time: "",
+    end_time: "",
+    due_date: new Date(),
+    reminder: true,
+  });
   const methods = useForm();
   const createTodoMutation = useCreateTodo();
 
-  const createTask = () => {
-    createTodoMutation.mutate({
-      user_id: user?.user?.id,
-      task: "we are cooking something",
-      start_time: "03:12:00", // You can provide a valid time here if needed
-      end_time: "03:12:00", // Formatted as HH:mm:ss
-      due_date: new Date(),
-      reminder: false,
-    });
+  const createTask = async () => {
+    if (values.task.length < 4)
+      return toast.error("Todo title must be at least 4 characters long");
+    await createTodoMutation.mutateAsync(values);
+    if (createTodoMutation.isSuccess) switchDisplayMethod("calender");
   };
 
   return (
@@ -48,19 +61,76 @@ const TaskEditor = () => {
         </div>
         <div className="flex flex-col w-full">
           <InputFieldTextArea
-            name="val"
-            labelText="input"
+            name="task"
+            labelText="enter task"
             className="h-[150px]"
             placeholder="enter task "
+            value={values.task}
+            onChange={(e) =>
+              setValues((prev) => ({ ...prev, task: e.target.value }))
+            }
           />
         </div>
-        <div className="w-full flex gap-4 justify-between">
-          <DateTimePickerBtn type="date" name="dueDate" />
+        <div className="w-full flex auto justify-between flex-wrap">
+          <DateTimePickerBtn
+            type="date"
+            name="dueDate"
+            onChange={(value) =>
+              setValues((prev) => ({ ...prev, due_date: value }))
+            }
+          />
           <span className="flex gap-2">
-            <DateTimePickerBtn type="time" name="startTime" />
-            <DateTimePickerBtn type="time" name="endTime" />
+            <DateTimePickerBtn
+              type="time"
+              name="startTime"
+              onChange={(value) =>
+                setValues((prev) => ({
+                  ...prev,
+                  start_time: value?.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false,
+                  }),
+                }))
+              }
+            />
+            <DateTimePickerBtn
+              type="time"
+              name="endTime"
+              onChange={(value) =>
+                setValues((prev) => ({
+                  ...prev,
+                  end_time: value?.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false,
+                  }),
+                }))
+              }
+            />
           </span>
         </div>
+        {values.reminder && (
+          <div className="flex my-1 w-full justify-between text-gray-500 font-medium text-base">
+            <span className="flex items-center gap-2">
+              <span className="text-xl font-bold">
+                <HiOutlineBellAlert size={20} />
+              </span>
+              <span>10 Minute before</span>
+            </span>
+            <button
+              type="button"
+              className="text-xl"
+              onClick={() =>
+                setValues((prev) => ({ ...prev, reminder: false }))
+              }
+            >
+              &times;
+            </button>
+          </div>
+        )}
         <div className="flex-col justify-start items-start gap-[34px] flex">
           <div className="w-[337px] justify-start items-start gap-3 inline-flex">
             <CButton
@@ -73,6 +143,7 @@ const TaskEditor = () => {
               value={"Save"}
               type="button"
               onClick={createTask}
+              loading={createTodoMutation.isLoading}
               className="grow shrink basis-0 h-10 px-4 py-2.5 bg-blue-600 rounded-lg hover:opacity-90 shadow border border-blue-600 justify-center items-center gap-2 flex text-white text-sm font-semibold leading-tight"
             />
           </div>

@@ -35,7 +35,7 @@ const Navbar = () => {
               />
             </button>
             <div
-              className={`absolute w-[230px] h-fit top-[60px] right-0 transition-all ease-in duration-200 bg-white py-4 px-4 z-10 ${
+              className={`absolute w-[230px] h-fit right-0 transition-all ease-in duration-200 bg-white py-4 px-4 z-10 ${
                 show ? "top-[60px] " : "top-[-100vh]"
               }`}
               style={{
